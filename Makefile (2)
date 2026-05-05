@@ -1,0 +1,29 @@
+CXX = clang++
+CXXFLAGS = -std=c++17 -Wall
+
+projet: projet.o coord.o grille.o termite.o jeu.o
+	$(CXX) -o projet projet.o coord.o grille.o termite.o jeu.o
+
+tests: test.o coord.o grille.o termite.o jeu.o
+	$(CXX) -o tests test.o coord.o grille.o termite.o jeu.o
+
+test.o: test.cpp coord.hpp grille.hpp termite.hpp jeu.hpp doctest.h
+	$(CXX) $(CXXFLAGS) -c test.cpp
+
+projet.o: projet.cpp jeu.hpp
+	$(CXX) $(CXXFLAGS) -c projet.cpp
+
+coord.o: coord.cpp coord.hpp
+	$(CXX) $(CXXFLAGS) -c coord.cpp
+
+grille.o: grille.cpp grille.hpp coord.hpp
+	$(CXX) $(CXXFLAGS) -c grille.cpp
+
+termite.o: termite.cpp termite.hpp grille.hpp coord.hpp
+	$(CXX) $(CXXFLAGS) -c termite.cpp
+
+jeu.o: jeu.cpp jeu.hpp termite.hpp grille.hpp coord.hpp
+	$(CXX) $(CXXFLAGS) -c jeu.cpp
+
+clean:
+	rm -f *.o projet tests
